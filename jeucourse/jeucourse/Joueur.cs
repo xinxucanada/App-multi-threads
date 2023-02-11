@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace jeucourse
 {
-    internal class Joueur
+    public class Joueur
     {
         public int x;
         public int y;

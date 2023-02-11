@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace jeucourse
 {
-    internal class ThreadJoueur: Joueur
+    public class ThreadJoueur: Joueur
     {
         public Random rd = new Random();
         public int angle;
@@ -24,7 +24,16 @@ namespace jeucourse
             brush = new SolidBrush(Color.Green);
 
         }
-        public override void Update()
+
+		public ThreadJoueur(int angle, double distance)
+		{
+			this.angle = angle;
+			//angle = rd.Next(0, 360);
+			this.distance = distance;
+			brush = new SolidBrush(Color.Green);
+
+		}
+		public override void Update()
         {
             while (distance > 0)
             {
@@ -34,18 +43,19 @@ namespace jeucourse
                 x = 400 + (int)(distance * cosine);
                 y = 400 - (int)(distance * sine);
                 Console.WriteLine($"distance angle {distance}");
-                DrawSelf();
+                //DrawSelf();
                 distance -= 0.02 * (1000 / JeuCourse.Frequence);
                 angle++;
                 Thread.Sleep(1000);
-                DrawSelf();
+                //DrawSelf();
             }
 
         }
 
         public void DrawSelf()
         {
-            Rectangle rectangle = new Rectangle(x, y, 20, 20);
+			JeuCourse.WindowG.Clear(Color.White);
+			Rectangle rectangle = new Rectangle(x, y, 20, 20);
             JeuCourse.WindowG.FillEllipse(this.brush, rectangle);
         }
     }
