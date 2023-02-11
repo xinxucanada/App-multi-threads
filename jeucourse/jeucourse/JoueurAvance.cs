@@ -4,27 +4,28 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace jeucourse
 {
-    internal class JoueurAvance:Joueur
+    public class JoueurAvance:Joueur
     {
         public Random rd = new Random();
         public int angle;
         public double distance;
         public int x;
         public int y;
-        public static SolidBrush brush = new SolidBrush(Color.Gold);
+        public  SolidBrush brush = new SolidBrush(Color.Gold);
         public JoueurAvance()
         {
             angle = 315;
             //angle = rd.Next(0, 360);
-            distance = 280.0;
+            distance = 200.0;
 
         }
         public override void Update()
         {
-            if (distance > 0)
+            while (distance > 0)
             {
                 double radians = angle * Math.PI / 180;
                 double sine = Math.Sin(radians);
@@ -32,12 +33,18 @@ namespace jeucourse
                 x = 400 + (int)(distance * cosine);
                 y = 400 - (int)(distance * sine);
                 Console.WriteLine($"distance avance :{distance}");
-                DrawSelf();
-                distance -= 0.02 * (1000 / JeuCourse.Frequence);
+                //DrawSelf();
+                distance -= 2;// * (1000 / JeuCourse.Frequence);
+                Thread.Sleep(100);
                 //angle++;
             }
+            this.etat = Etat.arrive;
+			Console.WriteLine($"distance avance :{distance}");
+            Thread.Sleep(5000);
+            this.etat = Etat.disparu;
 
-        }
 
-    }
+		}
+
+	}
 }

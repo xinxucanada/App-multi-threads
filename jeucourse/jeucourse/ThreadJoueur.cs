@@ -42,21 +42,25 @@ namespace jeucourse
                 double cosine = Math.Cos(radians);
                 x = 400 + (int)(distance * cosine);
                 y = 400 - (int)(distance * sine);
-                Console.WriteLine($"distance angle {distance}");
+                //Console.WriteLine($"distance angle {distance}");
                 //DrawSelf();
-                distance -= 0.02 * (1000 / JeuCourse.Frequence);
+                distance -= 2; //* (1000 / JeuCourse.Frequence);
                 angle++;
-                Thread.Sleep(1000);
+				Thread.Sleep(100);
                 //DrawSelf();
             }
+			this.etat = Etat.arrive;
+			Console.WriteLine($"distance thread :{distance}");
+			Thread.Sleep(5000);
+			this.etat = Etat.disparu;
 
-        }
+		}
 
-        public void DrawSelf()
-        {
-			JeuCourse.WindowG.Clear(Color.White);
-			Rectangle rectangle = new Rectangle(x, y, 20, 20);
-            JeuCourse.WindowG.FillEllipse(this.brush, rectangle);
-        }
+   //     public void DrawSelf()
+   //     {
+			//JeuCourse.WindowG.Clear(Color.White);
+			//Rectangle rectangle = new Rectangle(x, y, 20, 20);
+   //         JeuCourse.WindowG.FillEllipse(this.brush, rectangle);
+   //     }
     }
 }

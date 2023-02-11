@@ -7,16 +7,25 @@ using System.Threading.Tasks;
 
 namespace jeucourse
 {
+    public enum Etat
+    {
+        bouge,
+        arrive,
+        disparu
+    }   
+
     public class Joueur
     {
         public int x;
         public int y;
         private Object _lock = new Object();
         public SolidBrush brush;
+        public Etat etat;
 
         public Joueur() 
         {
             SolidBrush brush = new SolidBrush(Color.Blue);
+            this.etat = Etat.bouge;
         }
         public Joueur(int x, int y)
         {
