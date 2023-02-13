@@ -33,7 +33,7 @@ namespace jeucourse
                 x = 400 + (int)(distance * cosine);
                 y = 400 - (int)(distance * sine);
                 Console.WriteLine($"distance angle {distance}");
-                DrawSelf();
+                //DrawSelf();
                 distance -= 0.02 * (1000 / JeuCourse.Frequence);
                 angle++;
             }

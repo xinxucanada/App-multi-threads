@@ -16,8 +16,8 @@ namespace jeucourse
 
     public class Joueur
     {
-        public int x;
-        public int y;
+        private int x = 10;
+        private int y = 10;
         private Object _lock = new Object();
         public SolidBrush brush;
         public Etat etat;
@@ -44,13 +44,12 @@ namespace jeucourse
                 //DrawSelf();
             }
         }
-        public void DrawSelf()
+        public void DrawSelf(Graphics g, SolidBrush brush)
         {
-            lock(_lock)
-            {
+           
                 Rectangle rectangle = new Rectangle(x, y, 20, 20);
-                JeuCourse.WindowG.FillEllipse(this.brush, rectangle);
-            }
+                g.FillEllipse(brush, rectangle);
+           
         }
     }
 }

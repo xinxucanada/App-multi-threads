@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="GameFramwork.cs" />
     <Compile Include="GameObjetManager.cs" />
+    <Compile Include="IJoueur.cs" />
     <Compile Include="Joueur.cs" />
     <Compile Include="JoueurAngle.cs" />
     <Compile Include="JoueurAvance.cs" />

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace jeucourse
 {
-    public class ThreadJoueur: Joueur
+    public class ThreadJoueur: Joueur, IJoueur
     {
         public Random rd = new Random();
         public int angle;
         public double distance;
-        public int x;
-        public int y;
-        public SolidBrush brush = new SolidBrush(Color.Green);
+		private int x { get; set; }
+		private int y { get; set; }
+		public SolidBrush brush = new SolidBrush(Color.Green);
         public ThreadJoueur()
         {
             angle = 135;

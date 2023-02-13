@@ -18,6 +18,8 @@ namespace jeucourse
         private Thread t1;
         private Thread t2;
         private Thread t3;
+        private Thread[] threads = new Thread[2];
+        private IJoueur[] joueurs= new IJoueur[2];
         public static Graphics WindowG;
         private static Bitmap tempBmp;
         public static int Frequence = 60;
@@ -48,18 +50,31 @@ namespace jeucourse
 
             threadJoueur = new ThreadJoueur(135, 280);
             t1 = new Thread(new ThreadStart(threadJoueur.Update));
-            t1.Start();
+            
             //threadJoueur2 = new ThreadJoueur(45, 250);
             //t2 = new Thread(new ThreadStart(threadJoueur2.Update));
             //t2.Start();
             threadJoueur3 = new JoueurAvance();
 			t3 = new Thread(new ThreadStart(threadJoueur3.Update));
-			t3.Start();
-
-
-
+			
 			t = new Thread(new ThreadStart(GameMainThread)); //créer et démarrer thread pour game
-			t.Start();
+			joueurs[0] = threadJoueur;
+			joueurs[1] = threadJoueur3;
+
+			threads[0] = t1;
+            threads[1] = t3 ;
+            for(int i = 0; i < threads.Length; i++)
+            {
+                threads[i].Start();
+            }
+          
+            Thread.Sleep(1000);
+            t.Start();
+			//t3.Start();
+			//t1.Start();
+
+
+
 		}
 
 		[Obsolete]
@@ -72,36 +87,72 @@ namespace jeucourse
             while (true)
             {
                 WindowG.Clear(Color.White);  //donner background grey
-                                             //GameFramwork.update(); //graphis de GramFramwork update
-                                             // WindowG.DrawImage(tempBmp, 0, 0); //après GameFramwork change graphic, tempBmp change, puis donne tempBMP à GameWindow Graphic
-                if(threadJoueur.etat != Etat.disparu)
+                
+                for(int i = 0; i < threads.Length;i++)
                 {
-					Rectangle rectangle = new Rectangle(threadJoueur.x, threadJoueur.y, 20, 20);
-					JeuCourse.WindowG.FillEllipse(threadJoueur.brush, rectangle);
-                    if (threadJoueur.etat == Etat.arrive)
+                    if (joueurs[i].etat != Etat.disparu)
                     {
-                        if (t3.ThreadState== ThreadState.Running)
-                        {
-							t3.Suspend();
- 						}
+                        //                  Console.WriteLine(joueurs[i].x + " : " + joueurs[i].y);
+                        //Rectangle rectangle = new Rectangle(joueurs[i].x, joueurs[i].y, 20, 20);
+                        //WindowG.FillEllipse(new SolidBrush(Color.Blue), rectangle);
+                        joueurs[i].DrawSelf(WindowG, new SolidBrush(Color.Green));
+						if (joueurs[i].etat == Etat.arrive)
+						{
+							for(int j = 0; j < threads.Length; j++)
+                            {
+                                if (j != i)
+                                {
+                                    if (threads[j].ThreadState == ThreadState.Running)
+                                    {
+										threads[j].Suspend();
+									}
+                                }
+                            }
+						}
 					}
-				} 
-
-				if (threadJoueur3.etat != Etat.disparu)
-                {
-					Rectangle rectangle3 = new Rectangle(threadJoueur3.x, threadJoueur3.y, 20, 20);
-					JeuCourse.WindowG.FillEllipse(threadJoueur3.brush, rectangle3);
-                    if (threadJoueur3.etat == Etat.arrive)
+                    else
                     {
-                        t1.Suspend();
-                    }
-				} else
-                {
-                    if (t1.ThreadState== ThreadState.Suspended)
-                    {
-						t1.Resume();
+						for (int j = 0; j < threads.Length; j++)
+						{
+							if (j != i)
+							{
+								if (threads[j].ThreadState == ThreadState.Suspended)
+								{
+									threads[j].Resume();
+								}
+							}
+						}
 					}
                 }
+                
+    //            if(threadJoueur.etat != Etat.disparu)
+    //            {
+				//	Rectangle rectangle = new Rectangle(threadJoueur.x, threadJoueur.y, 20, 20);
+				//	JeuCourse.WindowG.FillEllipse(threadJoueur.brush, rectangle);
+    //                if (threadJoueur.etat == Etat.arrive)
+    //                {
+    //                    if (t3.ThreadState== ThreadState.Running)
+    //                    {
+				//			t3.Suspend();
+ 			//			}
+				//	}
+				//} 
+
+				//if (threadJoueur3.etat != Etat.disparu)
+    //            {
+				//	Rectangle rectangle3 = new Rectangle(threadJoueur3.x, threadJoueur3.y, 20, 20);
+				//	JeuCourse.WindowG.FillEllipse(threadJoueur3.brush, rectangle3);
+    //                if (threadJoueur3.etat == Etat.arrive)
+    //                {
+    //                    t1.Suspend();
+    //                }
+				//} else
+    //            {
+    //                if (t1.ThreadState== ThreadState.Suspended)
+    //                {
+				//		t1.Resume();
+				//	}
+    //            }
 
 					//Rectangle rectangle1 = new Rectangle(threadJoueur2.x, threadJoueur2.y, 20, 20);
 					//JeuCourse.WindowG.FillEllipse(threadJoueur.brush, rectangle1);

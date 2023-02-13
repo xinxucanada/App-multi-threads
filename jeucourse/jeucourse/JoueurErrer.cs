@@ -34,7 +34,7 @@ namespace jeucourse
                 x = 400 + (int)(distance * cosine);
                 y = 400 - (int)(distance * sine);
                 Console.WriteLine($"distance errer {distance}");
-                DrawSelf();
+                //DrawSelf();
                 if (flag)
                 {
                     distance -= 0.06 * (1000 / JeuCourse.Frequence);

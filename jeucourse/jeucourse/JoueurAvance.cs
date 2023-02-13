@@ -8,14 +8,16 @@ using System.Threading;
 
 namespace jeucourse
 {
-    public class JoueurAvance:Joueur
+    public class JoueurAvance : Joueur, IJoueur
     {
         public Random rd = new Random();
         public int angle;
         public double distance;
-        public int x;
-        public int y;
-        public  SolidBrush brush = new SolidBrush(Color.Gold);
+        private int x { get; set; }
+        private int y { get; set; }
+	
+
+	public  SolidBrush brush = new SolidBrush(Color.Gold);
         public JoueurAvance()
         {
             angle = 315;
