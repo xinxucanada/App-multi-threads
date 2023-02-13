@@ -16,8 +16,8 @@ namespace jeucourse
 
     public class Joueur
     {
-        private int x = 10;
-        private int y = 10;
+        public int x = 10;
+        public int y = 10;
         private Object _lock = new Object();
         public SolidBrush brush;
         public Etat etat;

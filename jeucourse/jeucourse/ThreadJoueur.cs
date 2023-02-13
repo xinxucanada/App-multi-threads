@@ -13,8 +13,8 @@ namespace jeucourse
         public Random rd = new Random();
         public int angle;
         public double distance;
-		private int x { get; set; }
-		private int y { get; set; }
+		//private int x { get; set; }
+		//private int y { get; set; }
 		public SolidBrush brush = new SolidBrush(Color.Green);
         public ThreadJoueur()
         {

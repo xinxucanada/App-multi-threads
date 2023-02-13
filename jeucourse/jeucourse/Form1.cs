@@ -18,8 +18,8 @@ namespace jeucourse
         private Thread t1;
         private Thread t2;
         private Thread t3;
-        private Thread[] threads = new Thread[2];
-        private IJoueur[] joueurs= new IJoueur[2];
+        private Thread[] threads = new Thread[3];
+        private Joueur[] joueurs= new Joueur[3];
         public static Graphics WindowG;
         private static Bitmap tempBmp;
         public static int Frequence = 60;
@@ -50,9 +50,9 @@ namespace jeucourse
 
             threadJoueur = new ThreadJoueur(135, 280);
             t1 = new Thread(new ThreadStart(threadJoueur.Update));
-            
-            //threadJoueur2 = new ThreadJoueur(45, 250);
-            //t2 = new Thread(new ThreadStart(threadJoueur2.Update));
+
+            threadJoueur2 = new ThreadJoueur(45, 120);
+            t2 = new Thread(new ThreadStart(threadJoueur2.Update));
             //t2.Start();
             threadJoueur3 = new JoueurAvance();
 			t3 = new Thread(new ThreadStart(threadJoueur3.Update));
@@ -60,9 +60,11 @@ namespace jeucourse
 			t = new Thread(new ThreadStart(GameMainThread)); //créer et démarrer thread pour game
 			joueurs[0] = threadJoueur;
 			joueurs[1] = threadJoueur3;
+			joueurs[2] = threadJoueur2;
 
 			threads[0] = t1;
             threads[1] = t3 ;
+            threads[2] = t2 ;
             for(int i = 0; i < threads.Length; i++)
             {
                 threads[i].Start();
@@ -77,7 +79,7 @@ namespace jeucourse
 
 		}
 
-		[Obsolete]
+		
 		private void GameMainThread()
         {
             //GameFramwork.start();
@@ -92,19 +94,24 @@ namespace jeucourse
                 {
                     if (joueurs[i].etat != Etat.disparu)
                     {
-                        //                  Console.WriteLine(joueurs[i].x + " : " + joueurs[i].y);
-                        //Rectangle rectangle = new Rectangle(joueurs[i].x, joueurs[i].y, 20, 20);
-                        //WindowG.FillEllipse(new SolidBrush(Color.Blue), rectangle);
-                        joueurs[i].DrawSelf(WindowG, new SolidBrush(Color.Green));
+                        Console.WriteLine(joueurs[i].x + " : " + joueurs[i].y + " : " + joueurs[i].etat + threads[i].ManagedThreadId);
+                        Rectangle rectangle = new Rectangle(joueurs[i].x, joueurs[i].y, 20, 20);
+                        WindowG.FillEllipse(new SolidBrush(Color.Blue), rectangle);
+                        //joueurs[i].DrawSelf(WindowG, new SolidBrush(Color.Green));
 						if (joueurs[i].etat == Etat.arrive)
 						{
-							for(int j = 0; j < threads.Length; j++)
+							Console.WriteLine($"{i}arrive===========" + joueurs[i].x + " : " + joueurs[i].y + " : " + joueurs[i].etat + threads[i].ManagedThreadId);
+							for (int j = 0; j < threads.Length; j++)
                             {
+                                Console.WriteLine($"thread{j}");
                                 if (j != i)
                                 {
-                                    if (threads[j].ThreadState == ThreadState.Running)
+									Console.WriteLine($"thread{j}: {threads[j].ThreadState.ToString()}");
+
+                                    if (threads[j].ThreadState == ThreadState.WaitSleepJoin)
                                     {
-										threads[j].Suspend();
+                                        threads[j].Suspend();
+                                        Console.WriteLine($"Jouer{j} {threads[i].ManagedThreadId} suspend");
 									}
                                 }
                             }
