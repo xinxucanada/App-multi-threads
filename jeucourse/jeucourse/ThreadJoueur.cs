@@ -35,7 +35,7 @@ namespace jeucourse
 		}
 		public override void Update()
         {
-            while (distance > 0)
+            while (distance > 0 && JeuCourse.flag)
             {
                 double radians = angle * Math.PI / 180;
                 double sine = Math.Sin(radians);
@@ -50,9 +50,11 @@ namespace jeucourse
                 //DrawSelf();
             }
 			this.etat = Etat.arrive;
-			Console.WriteLine($"distance thread :{distance}");
+            JeuCourse.flag = false;
+            Console.WriteLine($"distance thread :{distance}");
 			Thread.Sleep(5000);
-			this.etat = Etat.disparu;
+            JeuCourse.flag = true;
+            this.etat = Etat.disparu;
 
 		}
 

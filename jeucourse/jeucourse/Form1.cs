@@ -29,6 +29,7 @@ namespace jeucourse
         public static ThreadJoueur threadJoueur;
 		public static ThreadJoueur threadJoueur2;
 		public static JoueurAvance threadJoueur3;
+        public static bool flag = true;
 
 
 		public JeuCourse()
@@ -98,38 +99,38 @@ namespace jeucourse
                         Rectangle rectangle = new Rectangle(joueurs[i].x, joueurs[i].y, 20, 20);
                         WindowG.FillEllipse(new SolidBrush(Color.Blue), rectangle);
                         //joueurs[i].DrawSelf(WindowG, new SolidBrush(Color.Green));
-						if (joueurs[i].etat == Etat.arrive)
-						{
-							Console.WriteLine($"{i}arrive===========" + joueurs[i].x + " : " + joueurs[i].y + " : " + joueurs[i].etat + threads[i].ManagedThreadId);
-							for (int j = 0; j < threads.Length; j++)
-                            {
-                                Console.WriteLine($"thread{j}");
-                                if (j != i)
-                                {
-									Console.WriteLine($"thread{j}: {threads[j].ThreadState.ToString()}");
+						//if (joueurs[i].etat == Etat.arrive)
+						//{
+						//	Console.WriteLine($"{i}arrive===========" + joueurs[i].x + " : " + joueurs[i].y + " : " + joueurs[i].etat + threads[i].ManagedThreadId);
+						//	for (int j = 0; j < threads.Length; j++)
+      //                      {
+      //                          Console.WriteLine($"thread{j}");
+      //                          if (j != i)
+      //                          {
+						//			Console.WriteLine($"thread{j}: {threads[j].ThreadState.ToString()}");
 
-                                    if (threads[j].ThreadState == ThreadState.WaitSleepJoin)
-                                    {
-                                        threads[j].Suspend();
-                                        Console.WriteLine($"Jouer{j} {threads[i].ManagedThreadId} suspend");
-									}
-                                }
-                            }
-						}
+      //                              if (threads[j].ThreadState == ThreadState.WaitSleepJoin)
+      //                              {
+      //                                  threads[j].Suspend();
+      //                                  Console.WriteLine($"Jouer{j} {threads[i].ManagedThreadId} suspend");
+						//			}
+      //                          }
+      //                      }
+						//}
 					}
-                    else
-                    {
-						for (int j = 0; j < threads.Length; j++)
-						{
-							if (j != i)
-							{
-								if (threads[j].ThreadState == ThreadState.Suspended)
-								{
-									threads[j].Resume();
-								}
-							}
-						}
-					}
+     //               else
+     //               {
+					//	for (int j = 0; j < threads.Length; j++)
+					//	{
+					//		if (j != i)
+					//		{
+					//			if (threads[j].ThreadState == ThreadState.Suspended)
+					//			{
+					//				threads[j].Resume();
+					//			}
+					//		}
+					//	}
+					//}
                 }
                 
     //            if(threadJoueur.etat != Etat.disparu)
