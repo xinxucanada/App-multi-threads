@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Deployment.Application;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -9,20 +9,33 @@ using System.Threading.Tasks;
 
 namespace jeucourse
 {
-    internal class JoueurAngle: Joueur
-    {
-        public JoueurAngle()
-        {
-			brush = new SolidBrush(Color.Gold);
+	internal class JoueurZZ: Joueur
+	{
+		public JoueurZZ()
+		{
+			brush = new SolidBrush(Color.Green);
 		}
 		public override void Update()
-        {
+		{
+			int angleOrigin = angle;
+			bool zigzag = true;
 			while (distance > 0)
 			{
 				if (JeuCourse.flag)
 				{
 					distance -= (0.02) * freshTime;
-					angle++;
+					if(zigzag )
+					{
+						angle++;
+					}
+					else
+					{
+						angle--;
+					}
+					if (angle > angleOrigin + 15 || angle < angleOrigin - 15)
+					{
+						zigzag = !zigzag;
+					}
 				}
 				Reperer();
 				Thread.Sleep(freshTime);
@@ -33,5 +46,5 @@ namespace jeucourse
 			JeuCourse.flag = true;
 			this.etat = Etat.disparu;
 		}
-    }
+	}
 }

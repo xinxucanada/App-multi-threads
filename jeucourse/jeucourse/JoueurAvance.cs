@@ -8,47 +8,31 @@ using System.Threading;
 
 namespace jeucourse
 {
-    public class JoueurAvance : Joueur, IJoueur
+    public class JoueurAvance : Joueur
     {
-        public Random rd = new Random();
-        public int angle;
-        public double distance;
-        //private int x { get; set; }
-        //private int y { get; set; }
-	
-
-	public  SolidBrush brush = new SolidBrush(Color.Gold);
         public JoueurAvance()
         {
-            angle = 315;
-            //angle = rd.Next(0, 360);
-            distance = 200.0;
+			brush = new SolidBrush(Color.Red);
 
         }
-        public override void Update()
+
+		public override void Update()
         {
-            while (distance > 0 && JeuCourse.flag)
+			//GetDistance();
+			while (distance > 0)
             {
-                double radians = angle * Math.PI / 180;
-                double sine = Math.Sin(radians);
-                double cosine = Math.Cos(radians);
-                x = 400 + (int)(distance * cosine);
-                y = 400 - (int)(distance * sine);
-                Console.WriteLine($"distance avance :{distance}");
-                //DrawSelf();
-                distance -= 2;// * (1000 / JeuCourse.Frequence);
-                Thread.Sleep(100);
-                //angle++;
-            }
+                if (JeuCourse.flag)
+                {
+					distance -= (0.02) * freshTime;
+				}
+				Reperer();
+				Thread.Sleep(freshTime);
+			}
             this.etat = Etat.arrive;
             JeuCourse.flag = false;
-
-            Console.WriteLine($"distance avance :{distance}");
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
             JeuCourse.flag = true;
             this.etat = Etat.disparu;
-
-
 		}
 
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace jeucourse
@@ -14,42 +15,55 @@ namespace jeucourse
         disparu
     }   
 
-    public class Joueur
+    public abstract class Joueur
     {
-        public int x = 10;
-        public int y = 10;
-        private Object _lock = new Object();
+        public int x;
+        public int y;
+        public double distance;
+        public int angle;
         public SolidBrush brush;
         public Etat etat;
+        public static int freshTime = 50;
+		public static Random rd = new Random();
 
-        public Joueur() 
+		public void GetDistance()
+		{
+			distance = rd.Next(100, 400);
+			angle = rd.Next(360);
+		}
+		public Joueur() 
         {
-            SolidBrush brush = new SolidBrush(Color.Blue);
             this.etat = Etat.bouge;
-        }
-        public Joueur(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-            SolidBrush brush = new SolidBrush(Color.Blue);
-        }
+            GetDistance();
+			Reperer();
 
-        public virtual void Update() 
+		}
+
+      
+        
+        public void Reperer()
         {
-            if (x != 401 && y!= 401)
-            {
-                x++;
-                y++;
-                //Console.WriteLine($"x:{x} y:{y}");
-                //DrawSelf();
-            }
-        }
-        public void DrawSelf(Graphics g, SolidBrush brush)
-        {
-           
-                Rectangle rectangle = new Rectangle(x, y, 20, 20);
-                g.FillEllipse(brush, rectangle);
-           
-        }
+			double radians = angle * Math.PI / 180;
+			double sine = Math.Sin(radians);
+			double cosine = Math.Cos(radians);
+			x = 401 + (int)(distance * cosine);
+			y = 401 - (int)(distance * sine);
+
+		}
+
+
+        public abstract void Update(); 
+        
+  //      public void Arriver()
+  //      {
+		//	this.etat = Etat.arrive;
+		//	JeuCourse.flag = false;
+
+		//	Console.WriteLine($"distance avance :{distance}");
+		//	Thread.Sleep(1000);
+		//	JeuCourse.flag = true;
+		//	this.etat = Etat.disparu;
+		//}
+       
     }
 }

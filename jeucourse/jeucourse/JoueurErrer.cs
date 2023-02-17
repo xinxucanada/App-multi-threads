@@ -1,54 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace jeucourse
 {
     internal class JoueurErrer: Joueur
     {
-        public Random rd = new Random();
-        public int angle;
-        public double distance;
-        public int x;
-        public int y;
-        public static SolidBrush brush = new SolidBrush(Color.Gray);
-        public bool flag = false;
+       
         public JoueurErrer()
         {
-            angle = 225;
-            //angle = rd.Next(0, 360);
-            distance = 280.0;
+			brush = new SolidBrush(Color.Blue);
 
-        }
-        public override void Update()
-        {
-            if (distance > 0)
-            {
+		}
+		public override void Update()
+		{
+			long count = 0;
+			while (distance > 0)
+			{
+				if (JeuCourse.flag)
+				{
+					if (count < 10)
+					{
+						distance += (0.01) * freshTime;
+					} else
+					{
+						distance -= (0.03) * freshTime;
+					}
+					count++;
+					if (count == 20) 
+					{ 
+						count = 0;
+					}
+				}
+				Reperer();
+				Thread.Sleep(freshTime / 2);
+			}
+			this.etat = Etat.arrive;
+			JeuCourse.flag = false;
+			Thread.Sleep(1000);
+			JeuCourse.flag = true;
+			this.etat = Etat.disparu;
+		}
 
-                double radians = angle * Math.PI / 180;
-                double sine = Math.Sin(radians);
-                double cosine = Math.Cos(radians);
-                x = 400 + (int)(distance * cosine);
-                y = 400 - (int)(distance * sine);
-                Console.WriteLine($"distance errer {distance}");
-                //DrawSelf();
-                if (flag)
-                {
-                    distance -= 0.06 * (1000 / JeuCourse.Frequence);
 
-                } else
-                {
-                    distance += 0.02 * (1000 / JeuCourse.Frequence);
-                }
-                flag = !flag;
-                //angle++;
-            }
-
-        }
-
-     
-    }
+	}
 }

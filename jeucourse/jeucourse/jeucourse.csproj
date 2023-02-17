@@ -58,10 +58,11 @@
     <Compile Include="Joueur.cs" />
     <Compile Include="JoueurAngle.cs" />
     <Compile Include="JoueurAvance.cs" />
+    <Compile Include="JoueurDroit.cs" />
     <Compile Include="JoueurErrer.cs" />
+    <Compile Include="JoueurZZ.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThreadJoueur.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
