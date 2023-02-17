@@ -8,38 +8,36 @@ using System.Threading.Tasks;
 
 namespace jeucourse
 {
-	internal class JoueurDroit:Joueur
-	{
-		public JoueurDroit()
-		{
-			brush = new SolidBrush(Color.Pink);
+    internal class JoueurDroit : Joueur
+    {
+        public JoueurDroit()
+        {
+            brush = new SolidBrush(Color.Pink);
+        }
+        public override void Update()
+        {
+            // Déplace le joueur horizontalement jusqu'à atteindre le centre
+            while (x != 401)
+            {
+                if (JeuCourse.flag)
+                {
+                    // Si le jeu est en cours, déplace le joueur d'une unité horizontalement vers la droite ou la gauche
+                    // en fonction de la position actuelle de x
+                    x = x > 401 ? --x : ++x;
+                }
+                Thread.Sleep(freshTime);
+            }
 
-		}
-
-		public override void Update()
-		{
-			Console.WriteLine($"X: {x}  Y:  {y}");
-			while (x != 401)
-			{
-				if (JeuCourse.flag)
-				{
-					x = x > 401 ? --x: ++x;
-				}
-				Thread.Sleep(freshTime);
-			}
-			while (y != 401)
-			{
-				if (JeuCourse.flag)
-				{
-					y = y > 401 ? --y : ++y;
-				}
-				Thread.Sleep(freshTime * 2);
-			}
-			this.etat = Etat.arrive;
-			JeuCourse.flag = false;
-			Thread.Sleep(1000);
-			JeuCourse.flag = true;
-			this.etat = Etat.disparu;
-		}
-	}
+            // Déplace le joueur verticalement jusqu'à atteindre le centre
+            while (y != 401)
+            {
+                if (JeuCourse.flag)
+                {
+                    y = y > 401 ? --y : ++y;
+                }
+                Thread.Sleep(freshTime);
+            }
+            Arriver();
+        }
+    }
 }

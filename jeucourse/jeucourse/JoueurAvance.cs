@@ -13,12 +13,9 @@ namespace jeucourse
         public JoueurAvance()
         {
 			brush = new SolidBrush(Color.Red);
-
         }
-
 		public override void Update()
         {
-			//GetDistance();
 			while (distance > 0)
             {
                 if (JeuCourse.flag)
@@ -28,12 +25,7 @@ namespace jeucourse
 				Reperer();
 				Thread.Sleep(freshTime);
 			}
-            this.etat = Etat.arrive;
-            JeuCourse.flag = false;
-            Thread.Sleep(1000);
-            JeuCourse.flag = true;
-            this.etat = Etat.disparu;
-		}
-
+            Arriver();
+        }
 	}
 }

@@ -15,27 +15,21 @@ namespace jeucourse
     public partial class JeuCourse : Form
     {
         private Thread t;
-        private Thread t1;
-        private Thread t2;
-        private Thread t3;
-        private Thread t4;
-        private Thread t5;
         private Thread[] threads = new Thread[5];
         private Joueur[] joueurs= new Joueur[5];
-        public static int Frequence = 60;
-        public static int TAILLE = 801;
-        public static int axeX = TAILLE / 2 + 6;
-        public static int axeY = TAILLE / 2 + 6;
-		public static Graphics WindowG;
-		public static Graphics tempG;
-		public static Bitmap tempBmp;
-		public static Pen pen = new Pen(Color.Black, 1);
-		public static Point leftPoint = new Point(0, axeX);
-		public static Point rightPoint = new Point(TAILLE, axeX);
-		public static Point upPoint = new Point(axeY, 0);
-		public static Point downPoint = new Point(axeY, TAILLE);
-		public static bool flag = true;
-
+        public static int Frequence = 60; // Fréquence de rafraîchissement de l'écran
+        public static int TAILLE = 801; // Taille de l'écran de jeu
+        public static int axeX = TAILLE / 2 + 6; 
+        public static int axeY = TAILLE / 2 + 6; 
+        public static Graphics WindowG; // Graphics pour l'écran de jeu
+        public static Graphics tempG; // Graphics pour le bitmap
+        public static Bitmap tempBmp; // Bitmap pour l'affichage de l'écran
+        public static Pen pen = new Pen(Color.Black, 1); // Stylo pour dessiner les lignes
+        public static Point leftPoint = new Point(0, axeX); // Point de départ de la ligne de gauche
+        public static Point rightPoint = new Point(TAILLE, axeX); // Point de fin de la ligne de droite
+        public static Point upPoint = new Point(axeY, 0); // Point de départ de la ligne du haut
+        public static Point downPoint = new Point(axeY, TAILLE); // Point de fin de la ligne du bas
+        public static bool flag = true;
 
 		public JeuCourse()
         {
@@ -47,42 +41,38 @@ namespace jeucourse
 
             tempG = Graphics.FromImage(tempBmp); //créer graphic de bitmap
 
-            //GameFramwork.g = bmpG;  // donne graphic vide à gameframework pour y peindre
-
-            
         }
 
         private void JeuCourse_Load(object sender, EventArgs e)
         {
+            FabriqueJoueur fabriqueJoueur = FabriqueJoueur.GetFabriqueJoueurInstance();
+            // Création des threads pour chaque joueur
+            try
+            {
+                joueurs[0] = fabriqueJoueur.GetJoueur("Avance");
+                threads[0] = new Thread(new ThreadStart(joueurs[0].Update));
 
-            Joueur j1 = new JoueurAvance();
-            t1 = new Thread(new ThreadStart(j1.Update));
+                joueurs[1] = fabriqueJoueur.GetJoueur("Errer");
+                threads[1] = new Thread(new ThreadStart(joueurs[1].Update));
 
-			Joueur j2 = new JoueurErrer();
-			t2 = new Thread(new ThreadStart(j2.Update));
+                joueurs[2] = fabriqueJoueur.GetJoueur("Angle");
+                threads[2] = new Thread(new ThreadStart(joueurs[2].Update));
 
-			Joueur j3 = new JoueurAngle();
-			t3 = new Thread(new ThreadStart(j3.Update));
+                joueurs[3] = fabriqueJoueur.GetJoueur("ZigZag");
+                threads[3] = new Thread(new ThreadStart(joueurs[3].Update));
 
-            Joueur j4 = new JoueurZZ();
-			t4 = new Thread(new ThreadStart(j4.Update));
+                joueurs[4] = fabriqueJoueur.GetJoueur("Droit");
+                threads[4] = new Thread(new ThreadStart(joueurs[4].Update));
 
-			Joueur j5 = new JoueurDroit();
-			t5 = new Thread(new ThreadStart(j5.Update));
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
 
 			t = new Thread(new ThreadStart(GameMainThread)); //créer et démarrer thread pour game
-			joueurs[0] = j1;
-			joueurs[1] = j2;
-			joueurs[2] = j3;
-			joueurs[3] = j4;
-			joueurs[4] = j5;
-
-			threads[0] = t1;
-            threads[1] = t2;
-            threads[2] = t3;
-            threads[3] = t4;
-            threads[4] = t5;
+            
+            // Démarrage de tous les threads des joueurs
             for (int i = 0; i < threads.Length; i++)
             {
                 threads[i].Start();
@@ -92,22 +82,21 @@ namespace jeucourse
             t.Start();
 		}
 
-		public static void DrawPlan()
+        public static void DrawPlan()
         {
-			tempG.Clear(Color.White);  //donner background white
-			tempG.DrawLine(pen, leftPoint, rightPoint);
-            tempG.DrawLine(pen, upPoint, downPoint);
-
-		}
-		private void GameMainThread()
+            tempG.Clear(Color.White); // définir le fond en blanc
+            tempG.DrawLine(pen, leftPoint, rightPoint); // tracer axe horizontale
+            tempG.DrawLine(pen, upPoint, downPoint); // tracer axe horizontale
+        }
+        private void GameMainThread()
         {
-            //GameFramwork.start();
             //rafraîchissements par seconde
             int sleepTime = 1000 / Frequence;
 
             while (true)
             {
                 DrawPlan();
+                // affihcer joueur s'il n'est pas disparu
 				for (int i = 0; i < joueurs.Length;i++)
                 {
                     if (joueurs[i].etat != Etat.disparu)
