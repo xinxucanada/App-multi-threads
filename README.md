@@ -1,5 +1,4 @@
-# Algo-labo4
-2194517 2295847
+# App multi threads
 
 # Nom
 Jeu de course
@@ -37,8 +36,6 @@ Ouvrez et executez "jeucourse.sln" sur visual studio
 
 # Auteur
 Xin Xu;
-
-Yimin Chemen
 
 # Support
 Pour nous rejoindre, voux pouvez nous écrire à l'adresse suivante: e2194517@cmaisonneuve.qc.ca
